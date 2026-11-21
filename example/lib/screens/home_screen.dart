@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+
 import '../demos/basic_markdown_demo.dart';
 import '../demos/centered_header_demo.dart';
 import '../demos/custom_bullet_list_demo.dart';
@@ -38,17 +39,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Markdown Demos'),
-      ),
+      appBar: AppBar(title: const Text('Markdown Demos')),
       body: SafeArea(
         child: ColoredBox(
           color: Colors.black12,
-          child: ListView(
-            children: <Widget>[
-              for (final MarkdownDemoWidget demo in _demos) DemoCard(widget: demo),
-            ],
-          ),
+          child: ListView(children: <Widget>[for (final MarkdownDemoWidget demo in _demos) DemoCard(widget: demo)]),
         ),
       ),
     );

@@ -4,8 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
+
 import '../shared/dropdown_menu.dart' as dropdown;
 import '../shared/markdown_demo_widget.dart';
 import '../shared/markdown_extensions.dart';
@@ -39,7 +40,8 @@ class WrapAlignmentDemo extends StatefulWidget implements MarkdownDemoWidget {
   String get title => WrapAlignmentDemo._title;
 
   @override
-  String get description => 'Shows the effect the wrap alignment and block '
+  String get description =>
+      'Shows the effect the wrap alignment and block '
       'spacing parameters have on various Markdown tagged elements.';
 
   @override

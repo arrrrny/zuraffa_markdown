@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() => defineTests();
@@ -76,10 +76,7 @@ void defineTests() {
   group('onSelectionChanged plain text', () {
     // Invoke the SelectableText's own onSelectionChanged the way the framework
     // would, capturing what the MarkdownBody callback receives.
-    Future<({String? reported, TextSpan? span})> selectAll(
-      WidgetTester tester,
-      String data,
-    ) async {
+    Future<({String? reported, TextSpan? span})> selectAll(WidgetTester tester, String data) async {
       String? reported;
       await tester.pumpWidget(
         MaterialApp(
@@ -98,10 +95,7 @@ void defineTests() {
       final SelectableText widget = tester.widget<SelectableText>(find.byType(SelectableText));
       final TextSpan? span = widget.textSpan;
       final int length = span?.toPlainText().length ?? 0;
-      widget.onSelectionChanged?.call(
-        TextSelection(baseOffset: 0, extentOffset: length),
-        SelectionChangedCause.drag,
-      );
+      widget.onSelectionChanged?.call(TextSelection(baseOffset: 0, extentOffset: length), SelectionChangedCause.drag);
       return (reported: reported, span: span);
     }
 

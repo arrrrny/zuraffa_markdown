@@ -6,7 +6,8 @@
 // ignore_for_file: avoid_implementing_value_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+
 import '../shared/dropdown_menu.dart' as dropdown;
 import '../shared/markdown_demo_widget.dart';
 
@@ -39,7 +40,8 @@ class MarkdownBodyShrinkWrapDemo extends StatefulWidget implements MarkdownDemoW
   String get title => MarkdownBodyShrinkWrapDemo._title;
 
   @override
-  String get description => "This example demonstrates how MarkdownBody's "
+  String get description =>
+      "This example demonstrates how MarkdownBody's "
       'shrinkWrap property works.';
 
   @override
@@ -55,10 +57,7 @@ class MarkdownBodyShrinkWrapDemo extends StatefulWidget implements MarkdownDemoW
 class _MarkdownBodyShrinkWrapDemoState extends State<MarkdownBodyShrinkWrapDemo> {
   bool _shrinkWrap = true;
 
-  final Map<String, bool> _shrinkWrapMenuItems = <String, bool>{
-    'true': true,
-    'false': false,
-  };
+  final Map<String, bool> _shrinkWrapMenuItems = <String, bool>{'true': true, 'false': false};
 
   @override
   Widget build(BuildContext context) {
@@ -84,15 +83,9 @@ class _MarkdownBodyShrinkWrapDemoState extends State<MarkdownBodyShrinkWrapDemo>
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.5),
-                    border: Border.all(
-                      color: Colors.red,
-                      width: 2,
-                    ),
+                    border: Border.all(color: Colors.red, width: 2),
                   ),
-                  child: MarkdownBody(
-                    data: _data,
-                    shrinkWrap: _shrinkWrap,
-                  ),
+                  child: MarkdownBody(data: _data, shrinkWrap: _shrinkWrap),
                 ),
               ),
             ],

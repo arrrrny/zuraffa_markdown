@@ -3,8 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
+
 import '../shared/markdown_demo_widget.dart';
 
 // ignore_for_file: public_member_api_docs
@@ -52,10 +53,7 @@ class CenteredHeaderDemo extends StatelessWidget implements MarkdownDemoWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return Markdown(
             data: snapshot.data!,
-            builders: <String, MarkdownElementBuilder>{
-              'h2': CenteredHeaderBuilder(),
-              'h6': CenteredHeaderBuilder(),
-            },
+            builders: <String, MarkdownElementBuilder>{'h2': CenteredHeaderBuilder(), 'h6': CenteredHeaderBuilder()},
           );
         } else {
           return const CircularProgressIndicator();
@@ -70,9 +68,7 @@ class CenteredHeaderBuilder extends MarkdownElementBuilder {
   Widget visitText(md.Text text, TextStyle? preferredStyle) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(text.text, style: preferredStyle),
-      ],
+      children: <Widget>[Text(text.text, style: preferredStyle)],
     );
   }
 }

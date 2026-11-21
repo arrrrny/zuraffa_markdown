@@ -1,3 +1,11 @@
+## 7.6.1
+
+* **Fork of `flutter_markdown_plus` 1.0.12**, published as part of the Zuraffa fleet and aligned with the rest of the fleet at version 7.6.1 (`zuraffa`, `zuraffa_ui`, `zuraffa_graphql`). The package is renamed to `zuraffa_markdown`; the public API is otherwise unchanged.
+* **Fixed: rendering inside an application built on `material_ui`** (upstream issue [#144](https://github.com/foresightmobile/flutter_markdown_plus/issues/144), [#151](https://github.com/foresightmobile/flutter_markdown_plus/issues/151)). `lib/src/style_sheet.dart`, `widget.dart`, `builder.dart`, `_functions_io.dart` and `_functions_web.dart` now read the `material_ui` / `cupertino_ui` theme families instead of the SDK's bundled Material library. Previously the fallback style generator called `Theme.of(context)` unconditionally, so a `material_ui` tree — which has no SDK `Theme` ancestor — could not render at all, and passing a complete `styleSheet` did not help because the fallback was computed before the caller's sheet was merged over it.
+* The theme family is resolved from the build context, so an application can mix families: a `material_ui` subtree resolves the fork family, an SDK `MaterialApp` subtree keeps resolving the SDK family unchanged.
+* **Raised the SDK floor to Flutter 3.47.0 / Dart 3.13.0**, required by `material_ui`. Flutter 3.47 deprecated `package:flutter/material.dart` in favour of `material_ui`, so this is the direction the ecosystem is moving.
+* Added `material_ui` and `cupertino_ui` dependencies.
+
 ## 1.0.12
 
 * Added golden render regression tests for the Markdown widgets, covering text formatting, emphasis, blockquotes, lists, tables, task lists, and code blocks. They render with real fonts and run in the local `flutter test` suite; like the existing image goldens they are platform-specific, and are skipped on CI (whose Flutter `stable` channel is unpinned) to avoid flaky pixel-exact diffs when the toolchain drifts

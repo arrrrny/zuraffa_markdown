@@ -6,7 +6,8 @@
 // ignore_for_file: avoid_implementing_value_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+
 import '../shared/markdown_demo_widget.dart';
 
 // ignore_for_file: public_member_api_docs
@@ -50,7 +51,7 @@ The code sample below demonstrates a simple Flutter app with a Markdown widget.
 
 ```
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 
 const String _markdownData = \"""
 # Minimal Markdown Test
@@ -100,7 +101,8 @@ class MinimalMarkdownDemo extends StatelessWidget implements MarkdownDemoWidget 
   String get title => MinimalMarkdownDemo._title;
 
   @override
-  String get description => 'A minimal example of how to use the Markdown '
+  String get description =>
+      'A minimal example of how to use the Markdown '
       'widget in a Flutter app.';
 
   @override
@@ -111,8 +113,6 @@ class MinimalMarkdownDemo extends StatelessWidget implements MarkdownDemoWidget 
 
   @override
   Widget build(BuildContext context) {
-    return const Markdown(
-      data: _data,
-    );
+    return const Markdown(data: _data);
   }
 }

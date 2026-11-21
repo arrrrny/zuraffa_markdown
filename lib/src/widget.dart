@@ -5,11 +5,11 @@
 import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
 import 'package:markdown/markdown.dart' as md;
 
-import '../flutter_markdown_plus.dart';
+import '../zuraffa_markdown.dart';
 import '_functions_io.dart' if (dart.library.js_interop) '_functions_web.dart';
 
 /// Signature for callbacks used by [MarkdownWidget] when
@@ -22,7 +22,10 @@ import '_functions_io.dart' if (dart.library.js_interop) '_functions_web.dart';
 ///
 /// Used by [MarkdownWidget.onSelectionChanged]
 typedef MarkdownOnSelectionChangedCallback = void Function(
-    String? text, TextSelection selection, SelectionChangedCause? cause);
+  String? text,
+  TextSelection selection,
+  SelectionChangedCause? cause,
+);
 
 /// Signature for callbacks used by [MarkdownWidget] when the user taps a link.
 /// The callback will return the link text, destination, and title from the
@@ -44,20 +47,14 @@ typedef MarkdownCheckboxBuilder = Widget Function(bool value);
 /// Signature for custom bullet widget.
 ///
 /// Used by [MarkdownWidget.bulletBuilder]
-typedef MarkdownBulletBuilder = Widget Function(
-  MarkdownBulletParameters parameters,
-);
+typedef MarkdownBulletBuilder = Widget Function(MarkdownBulletParameters parameters);
 
 /// An parameters of [MarkdownBulletBuilder].
 ///
 /// Used by [MarkdownWidget.bulletBuilder]
 class MarkdownBulletParameters {
   /// Creates a new instance of [MarkdownBulletParameters].
-  const MarkdownBulletParameters({
-    required this.index,
-    required this.style,
-    required this.nestLevel,
-  });
+  const MarkdownBulletParameters({required this.index, required this.style, required this.nestLevel});
 
   /// The index of the bullet on that nesting level.
   final int index;
@@ -266,13 +263,8 @@ abstract class MarkdownWidget extends StatefulWidget {
   /// to null to suppress the text selection context menu.
   final EditableTextContextMenuBuilder? contextMenuBuilder;
 
-  static Widget _defaultContextMenuBuilder(
-    BuildContext context,
-    EditableTextState editableTextState,
-  ) {
-    return AdaptiveTextSelectionToolbar.editableText(
-      editableTextState: editableTextState,
-    );
+  static Widget _defaultContextMenuBuilder(BuildContext context, EditableTextState editableTextState) {
+    return AdaptiveTextSelectionToolbar.editableText(editableTextState: editableTextState);
   }
 
   /// The base directory holding images referenced by Img tags with local or network file paths.
