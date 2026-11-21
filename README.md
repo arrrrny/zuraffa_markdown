@@ -72,17 +72,17 @@ A markdown renderer for Flutter. It supports the
 [original format](https://daringfireball.net/projects/markdown/), but no inline
 HTML.
 
-### Migrating from `zuraffa_markdown`
+### Migrating from `flutter_markdown_plus`
 
 Change the dependency name and version, and the import. Nothing else:
 
 ```diff
--  zuraffa_markdown: ^1.0.12
+-  flutter_markdown_plus: ^1.0.12
 +  zuraffa_markdown: ^7.6.1
 ```
 
 ```diff
--import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 +import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 ```
 
@@ -102,14 +102,20 @@ import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 MaterialApp(
   theme: ThemeData(brightness: Brightness.light),
   home: Scaffold(
-    body: Markdown(data: '# Hello
+    body: Markdown(
+      data: '''
+# Hello
 
-A **bold** statement.'),
+A **bold** statement.''',
+    ),
   ),
 )
 ```
 
-Applications still on the SDK's `MaterialApp` keep working unchanged.
+Applications still on the SDK's `MaterialApp` keep rendering, but under an SDK
+`MaterialApp` the fork cannot read the application theme (that would require
+`material_ui`'s own `MaterialApp`/`Theme` ancestors), so the fallback style sheet
+falls back to `material_ui`'s default theme rather than the SDK theme.
 
 ## Overview
 
