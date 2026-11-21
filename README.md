@@ -78,7 +78,7 @@ Change the dependency name and version, and the import. Nothing else:
 
 ```diff
 -  flutter_markdown_plus: ^1.0.12
-+  zuraffa_markdown: ^7.6.1
++  zuraffa_markdown: ^7.6.2
 ```
 
 ```diff
