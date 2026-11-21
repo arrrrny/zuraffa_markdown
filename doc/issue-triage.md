@@ -3,212 +3,180 @@
 **Fork**: [arrrrny/zuraffa_markdown](https://github.com/arrrrny/zuraffa_markdown) 7.6.1
 **Upstream**: [foresightmobile/flutter_markdown_plus](https://github.com/foresightmobile/flutter_markdown_plus)
 **Triaged**: 2026-11-21
-**Open upstream issues**: **99**
+**Upstream issues**: **106** (99 open, 7 closed)
+**Imported as**: **87** canonical issues, with 19 upstream duplicates folded in
 
-Every open upstream issue appears exactly once below, with a disposition, a priority,
-and — where declined — a reason. "Fixed in 7.6.1" means verified against the code in
-this fork, not assumed from a changelog.
+Every upstream issue is now tracked in this repository. Duplicates were folded into
+a single canonical issue rather than imported separately; the canonical's body lists
+the upstream numbers it covers, so the original discussion stays reachable.
 
 ## Summary
 
-| Disposition | Count |
-| --- | --- |
-| `fixed` | 13 |
-| `planned` | 44 |
-| `declined` | 43 |
-| **Total** | **100** (99 open + #151, closed upstream as a duplicate of #144) |
+| Disposition | Upstream issues | Fork issues |
+| --- | --- | --- |
+| `fixed` | 12 | 12 |
+| `planned` | 40 | 40 |
+| `declined` | 35 | 35 |
+| **Total** | **106** | **87** |
 
-| Priority | Count |
+Priorities on planned work:
+
+| Priority | Fork issues |
 | --- | --- |
 | `P0` | 6 |
 | `P1` | 18 |
-| `P2` | 21 |
-| — (declined) | 43 |
+| `P2` | 16 |
 
 ## Disposition definitions
 
-- **`fixed`** — already working in 7.6.1. The reporter's problem no longer reproduces; the issue is stale relative to the code.
-- **`planned`** — accepted into this fork's backlog. It will be built; the priority says when.
-- **`declined`** — deliberately ruled out, with a reason. Not "won't ever reconsider" — a stated reason can be revisited.
+- **`fixed`** — already working in a published version. Verified against the code, not the changelog.
+- **`planned`** — accepted into this fork's backlog; the priority says when.
+- **`declined`** — deliberately ruled out, with a reason recorded on the issue so the call can be revisited.
 
-Priority: `P0` blocks someone today · `P1` next up · `P2` real but not urgent · `P3` nice to have.
+## Fixed
 
----
+Verified against the code in this fork.
 
-## Fixed in 7.6.1
-
-Verified against the code, not the changelog.
-
-| Issue | Title | Why it is fixed |
+| Fork | Upstream | Issue |
 | --- | --- | --- |
-| #144 | Add material_ui support | **This is the reason the fork exists.** The five library files now read `material_ui`/`cupertino_ui`; `kFallbackStyle` resolves the family from the build context. |
-| #151 | Migrate to material UI package | Closed upstream as a duplicate of #144; same fix. |
-| #49 | Markdown widget: expose `contextMenuBuilder` | `MarkdownWidget.contextMenuBuilder` exists (`lib/src/widget.dart:213`) and is threaded to the selection toolbar (`:402`). Shipped in 1.0.10. |
-| #121 | Add Dark Theme Support! | `fromTheme` reads `colorScheme` and `textTheme`; dark `ThemeData` flows through. The old dark-mode gap was the blockquote, fixed next. |
-| #95 | `blockquoteDecoration` does not respect dark theme | `fromTheme` now derives the decoration from `colorScheme.surfaceContainerHighest` (`lib/src/style_sheet.dart:145`) instead of a hard-coded colour. Shipped in 1.0.8. |
-| #46 | Custom Builder for `hr` tag not invoked | `builder.dart:475` handles `tag == 'hr'` and `:481` routes it through `paddingBuilders`. Shipped in 1.0.8. |
-| #57 | Custom Builder for `hr` tag not invoked | Duplicate of #46 — same fix. |
-| #81 | `MarkdownBody.shrinkWrap` not taken into account with single child | `shrinkWrap` defaults `true` (`widget.dart:477`) and is honoured in the single-child path (`:489`). |
-| #82 | API documentation points to a non-existing GitHub issue | The fork's docs point at this repository's own tracker. Upstream link rot does not apply here. |
-| #99 | `MarkdownBody` ignores `textAlign` | Block text alignment is resolved per block tag (`builder.dart:372`, `:746`); `MarkdownBody` no longer drops it. |
-| #48 | Allow aligning table cell content | Table cells take a `TextAlign` (`builder.dart:683`) and map it to alignment (`:699`). |
-| #73 | Allow aligning table cell content | Duplicate of #48 — same fix. |
-| #62 | `onSelectionChanged` nullable, null check used without explicit check | The callback is declared nullable (`widget.dart:255`) and the null-assertion path is gone; the fix shipped with the 1.0.10 selection rework. |
-
----
+| [#11](https://github.com/arrrrny/zuraffa_markdown/issues/11) | #46 | Custom Builder for 'hr' Tag Not Invoked |
+| [#13](https://github.com/arrrrny/zuraffa_markdown/issues/13) | #48 | Allow aligning table cell content |
+| [#20](https://github.com/arrrrny/zuraffa_markdown/issues/20) | #58 | inline code blocks break selectable text |
+| [#22](https://github.com/arrrrny/zuraffa_markdown/issues/22) | #60 | Enable standard link context menu on long-press. |
+| [#23](https://github.com/arrrrny/zuraffa_markdown/issues/23) | #61 | Disposes gesture recognizers when reparenting |
+| [#24](https://github.com/arrrrny/zuraffa_markdown/issues/24) | #62 | onSelectionChanged is nullable, null check operator is used without explicit null check |
+| [#33](https://github.com/arrrrny/zuraffa_markdown/issues/33) | #72 | throws assertion for footnotes with latest `markdown` |
+| [#41](https://github.com/arrrrny/zuraffa_markdown/issues/41) | #81 | MarkdownBody.shrinkWrap not taken into account with single child |
+| [#42](https://github.com/arrrrny/zuraffa_markdown/issues/42) | #82 | API documentation points to a non-existing GitHub issue |
+| [#57](https://github.com/arrrrny/zuraffa_markdown/issues/57) | #99 | MarkdownBody ignores textAligment property |
+| [#77](https://github.com/arrrrny/zuraffa_markdown/issues/77) | #121 | Add Dark Theme Support! |
+| [#87](https://github.com/arrrrny/zuraffa_markdown/issues/87) | #144 | Add material_ui support |
 
 ## Planned
 
-Ordered by priority within each group.
+Ordered by priority.
+
 
 ### P0 — blocks someone today
 
-| Issue | Title | Note |
+| Fork | Upstream | Issue |
 | --- | --- | --- |
-| #122 | Line breaks are not properly parsed | Breaks real content; high comment volume. |
-| #93 | App throws unexpected null-safety errors | A crash is the worst failure mode. |
-| #63 | `ScrollController` attached to more than one `ScrollPosition` with multiple code blocks | Crash when a document has more than one fenced block. |
-| #64 | `MarkdownElementBuilder.visitElementAfter` produces assertion error | Crash in a public extension point. |
-| #104 | "Markdown did not handle li for alignment" pollutes log | Log spam on valid input. |
-| #97 | Multiple asterisks are not properly parsed | Silent wrong output — worse than a crash because nobody notices. |
+| [#25](https://github.com/arrrrny/zuraffa_markdown/issues/25) | #63 | FlutterError (The provided ScrollController is currently attached to more than one ScrollPosition.) when having multiple ` ``` ``` ` blocks |
+| [#26](https://github.com/arrrrny/zuraffa_markdown/issues/26) | #64 | MarkdownElementBuilder.visitElementAfter produces assertion error |
+| [#53](https://github.com/arrrrny/zuraffa_markdown/issues/53) | #93 | App throws unexpected null-safety errors |
+| [#55](https://github.com/arrrrny/zuraffa_markdown/issues/55) | #97 | multiple asterisks are not properly parsed |
+| [#61](https://github.com/arrrrny/zuraffa_markdown/issues/61) | #104 | "Markdown did not handle li for alignment" pollutes log |
+| [#78](https://github.com/arrrrny/zuraffa_markdown/issues/78) | #122 | Line breaks are not properly parsed |
 
 ### P1 — next up
 
-| Issue | Title |
-| --- | --- |
-| #124 | Relative anchors |
-| #125 | A way to set margins for block elements |
-| #152 | Allow opting out of the forced line height (`forceStrutHeight`, added 1.0.8) |
-| #100 | `blockquote` property not applied in `MarkdownBody` |
-| #106 | Strikethrough not rendered when mixed with emphasis |
-| #114 | Ordered number list uses `SizedBox` for the number, doesn't scale text to fit |
-| #116 | Links should use `SystemMouseCursors.click` |
-| #108 | Support `maxLines` and `overflow` |
-| #21 | `maxLines` property in `MarkdownBody` not found — superseded by #108/#96, which own the API work |
-| #146 | Multi-block copy under `SelectionArea` loses separators |
-| #84 | Selecting text works only paragraph by paragraph |
-| #119 | Markdown rule parsed as header |
-| #143 | Opt-in relaxed strong-emphasis parsing for suffix-attached languages |
-| #54 | Text ending in a break line and a hyphen returns only a bullet point |
-| #90 | Custom `InlineSyntax` extension inconsistently breaks paragraphs (web) |
-| #92 | `MarkdownBody` tries to render the object as an image |
-| #94 | Generated links violate `kMinInteractiveDimension` |
-| #99 | (fixed — see above) |
+| Fork | Upstream | Issue |
+| --- | --- | --- |
+| [#10](https://github.com/arrrrny/zuraffa_markdown/issues/10) | #45 | accessibility issues with VoiceOver on MacOS |
+| [#12](https://github.com/arrrrny/zuraffa_markdown/issues/12) | #47 | Support onSelectionChanged for SelectableText |
+| [#17](https://github.com/arrrrny/zuraffa_markdown/issues/17) | #54 | Markdown Parsing Error: Text that ends with a break line and a hyphen returns only a bullet point |
+| [#44](https://github.com/arrrrny/zuraffa_markdown/issues/44) | #84 | Selecting text works only paragraph by paragraph in markdown widget when text is not indented |
+| [#50](https://github.com/arrrrny/zuraffa_markdown/issues/50) | #90 | Custom Markdown InlineSyntax extension inconsistently breaks paragraphs [Web] |
+| [#52](https://github.com/arrrrny/zuraffa_markdown/issues/52) | #92 | MarkdownBody tries to render the object as an image |
+| [#54](https://github.com/arrrrny/zuraffa_markdown/issues/54) | #94 | MarkdownBody widgets generate links which violate kMinInteractiveDimension |
+| [#58](https://github.com/arrrrny/zuraffa_markdown/issues/58) | #100 | `blockquote` property not being applied in `MarkdownBody`  widget |
+| [#62](https://github.com/arrrrny/zuraffa_markdown/issues/62) | #106 | Strikethrough Tags Not Correctly Rendered When Mixed with Emphasis and Order Changes |
+| [#64](https://github.com/arrrrny/zuraffa_markdown/issues/64) | #108 | Support `maxLines` and `overflow` |
+| [#70](https://github.com/arrrrny/zuraffa_markdown/issues/70) | #114 | Ordered number list uses SizedBox for bullet number, but doesn't scale text to fit properly |
+| [#72](https://github.com/arrrrny/zuraffa_markdown/issues/72) | #116 | Update the rendering of links to include SystemMouseCursors.click |
+| [#75](https://github.com/arrrrny/zuraffa_markdown/issues/75) | #119 | Markdown rule parsed as header |
+| [#80](https://github.com/arrrrny/zuraffa_markdown/issues/80) | #124 | Relative anchors |
+| [#81](https://github.com/arrrrny/zuraffa_markdown/issues/81) | #125 | Please provide a way to set margins for block elements |
+| [#86](https://github.com/arrrrny/zuraffa_markdown/issues/86) | #143 | opt-in relaxed strong emphasis parsing for suffix-attached languages |
+| [#88](https://github.com/arrrrny/zuraffa_markdown/issues/88) | #146 | Multi-block copy under SelectionArea loses separators (flutter/flutter#104548) — verified ~45-line fix the package could adopt |
+| [#89](https://github.com/arrrrny/zuraffa_markdown/issues/89) | #152 | Allow opting out of the forced line height (StrutStyle forceStrutHeight) added in 1.0.8 |
 
 ### P2 — real, not urgent
 
-| Issue | Title |
-| --- | --- |
-| #142 | Configurable per-column max width for tables |
-| #109 | Add `StrutStyle` support |
-| #115 | Make ordered-list indentation and number alignment configurable |
-| #105 | Blockquote arrow not showing in `markdownStyle` |
-| #52 | Newlines (`\n`) don't behave as expected |
-| #53 | Allow a custom image error builder |
-| #55 | `padding` is `EdgeInsets` instead of `EdgeInsetsGeometry` |
-| #58 | Inline code blocks break selectable text |
-| #59 | Crash using `> [!NOTE]` — custom block builders don't work |
-| #61 | Disposes gesture recognizers when reparenting |
-| #71 | Support `onSelectionChanged` for `SelectableText` |
-| #72 | Assertion for footnotes with the latest `markdown` |
-| #76 | Text selection controls support for the Markdown widget |
-| #32 | `[x]` and `[ ]` are not rendered |
-| #33 | Markdown styles ignored inside blockquotes |
-| #40 | Support in-page anchor links (`#fragment`) |
-| #43 | Add dedicated `listSpacing` and `listPadding` to `MarkdownStyleSheet` |
-| #47 | Support `onSelectionChanged` for `SelectableText` |
-| #60 | Enable standard link context menu on long-press |
-| #96 | Add a `maxLines` parameter |
-| #19 | `blockSpacing` != `listSpacing` for lists |
+| Fork | Upstream | Issue |
+| --- | --- | --- |
+| [#4](https://github.com/arrrrny/zuraffa_markdown/issues/4) | #19 | blockSpacing != listSpacing for Lists |
+| [#6](https://github.com/arrrrny/zuraffa_markdown/issues/6) | #27 | example broken |
+| [#15](https://github.com/arrrrny/zuraffa_markdown/issues/15) | #52 | New lines (`\n`) do not behave as expected. |
+| [#16](https://github.com/arrrrny/zuraffa_markdown/issues/16) | #53 | Allow specifying a custom image error builder |
+| [#18](https://github.com/arrrrny/zuraffa_markdown/issues/18) | #55 | padding is EdgeInsets instead of EdgeInsetsGeometry |
+| [#21](https://github.com/arrrrny/zuraffa_markdown/issues/21) | #59 | Crash if using `> [!NOTE]` syntax because custom block builders do not work |
+| [#29](https://github.com/arrrrny/zuraffa_markdown/issues/29) | #67 | code block doesn't format properly |
+| [#32](https://github.com/arrrrny/zuraffa_markdown/issues/32) | #70 | Add support for video embedding |
+| [#36](https://github.com/arrrrny/zuraffa_markdown/issues/36) | #76 | Add text selection controls support to Markdown widget |
+| [#39](https://github.com/arrrrny/zuraffa_markdown/issues/39) | #79 | Support selecting text using `SelectionArea` |
+| [#65](https://github.com/arrrrny/zuraffa_markdown/issues/65) | #109 | Add StrutStyle support |
+| [#68](https://github.com/arrrrny/zuraffa_markdown/issues/68) | #112 | Blockquotes are displayed within a box instead of indented block of text |
+| [#69](https://github.com/arrrrny/zuraffa_markdown/issues/69) | #113 | The Inclusion of TaskListSyntax Can Have Undesirable Side-effects |
+| [#71](https://github.com/arrrrny/zuraffa_markdown/issues/71) | #115 | Make 4 pixel indentation and text alignment for ordered numbers lists customizable |
+| [#73](https://github.com/arrrrny/zuraffa_markdown/issues/73) | #117 | Add Syntax Highlighter |
+| [#85](https://github.com/arrrrny/zuraffa_markdown/issues/85) | #142 | configurable per-column max width for tables (avoid overly wide columns on mobile) |
 
----
 ## Declined
 
-Each with the reason, so the call can be revisited.
+Each issue carries its reason, so the call can be revisited.
 
-| Issue | Title | Reason for declining |
+| Fork | Upstream | Issue |
 | --- | --- | --- |
-| #29 | SVGs are not rendered | Rendering SVG needs a new dependency (`flutter_svg`) the package has never carried; the `imageBuilder` extension point already covers it. A heavyweight dependency for one format is the wrong trade for a Markdown renderer. |
-| #70 | Add support for video embedding | Same reasoning as #29: a new heavyweight dependency for one content type. `imageBuilder` / custom builders cover it. |
-| #117 | Add a syntax highlighter | Deliberately out of scope — the package renders Markdown, it does not colourise code. `MarkdownElementBuilder` is the extension point; a separate package is the right home. |
-| #103 | Use the language identifier for `syntaxHighlighter` | Follows from #117 — no highlighter in scope, so no language identifier to pass. |
-| #34 | How to set code block highlighting? | Usage question, answered by the same reasoning as #117. |
-| #111 | Provide information about using URL parameters in links | Usage question answered by the README; not a package change. |
-| #77 | Restructure examples to avoid implementing value types | The examples are upstream's; rewriting them for style is churn with no user benefit. |
-| #89 | Example of using it in `showDialog` | Usage question; `showDialog` + `MarkdownBody` is a two-line example that belongs in the README, not the example app. |
-| #98 | Let `MarkdownWidget` implement `Text` | Would make a widget masquerade as a `Text` span and break the `RichText` contract it relies on. The correct shape is a `Text`-returning helper. |
-| #101 | Library doesn't allow text as a root element | Markdown's grammar defines block elements; permitting bare text as a root would make the parser accept input the CommonMark spec rejects. |
-| #107 | Remove padding/block spacing under headings | Defaults some users want changed, not a defect. `MarkdownStyleSheet` already exposes `h1Padding`…`h6Padding` (all default `EdgeInsets.zero`); a user who wants none sets it. |
-| #113 | The inclusion of `TaskListSyntax` can have undesirable side effects | Real trade-off, but the fix is "make the syntax set configurable", which is #88's scope. |
-| #56 | Screenreader: ignore bullet points and icons | Screen readers announce list markers because they are real text nodes; suppressing them would break list semantics for the majority who rely on them. |
-| #45 | Accessibility issues with VoiceOver on macOS | Overlaps #50; both are third-party screen-reader behaviour, not something the renderer can fix in its own code. |
-| #50 | Accessibility issues with VoiceOver on macOS | Same as #45. |
-| #75 | Widget not properly rendered (Safari) | Cannot reproduce without a Safari/WebKit environment; the web path is already conditional. Closing as unreproducible rather than carrying an unverifiable bug. |
-| #86 | Rich text breaks mid-sentence; unicode text not shown | This is Flutter's own line-breaking (`Text` + `TextDirection`), not something a Markdown renderer overrides. The unicode half is a font issue. |
-| #65 | Support RTL | Already works — set `Directionality`/`textDirection` on the ambient tree; the package renders into it. Declined as "no code change needed", not "won't do". |
-| #85 | `scrollController.position.maxScrollExtent` is not a fixed value | Expected: `maxScrollExtent` is only meaningful after layout. Not a defect. |
-| #112 | Blockquotes displayed within a box instead of an indented block | This is Material 3's design — the box *is* the blockquote treatment. Changing it would fight the theme. `blockquoteDecoration` is customisable for users who want the old look. |
-| #110 | Checkboxes aren't checkable | Markdown task-list checkboxes indicate `[x]`/`[ ]` in the source document; they are not interactive because the source string is immutable. Interactivity belongs to a stateful consumer, not a renderer. |
-| #20 | Writing an inline syntax/builder for underlined text | `MarkdownElementBuilder` already supports this; the issue asks "how", which the README answers. |
-| #36 | Can not jump to selection | Ambiguous report with no reproduction. Closing rather than guessing at intent. |
-| #41 | Use `Link` to render links | The `Link` widget wraps in a way that breaks inline text layout; links stay `TextSpan` + gesture recognizer. A deliberate architectural choice. |
-| #51 | Image at the end of multi-line text always on a new line | Dart's inline layout places an image on a new line when it cannot fit; forcing it inline would overflow. Matches Flutter's own `WidgetSpan` behaviour. |
-| #66 | Custom `MarkdownElementBuilder` for links behaves strangely | Overlaps #41's architecture; same reason. |
-| #67 | Code block doesn't format properly | Unreproducible without the reporter's input; the golden tests cover code-block rendering across themes. |
-| #68 | A way to change the default `MarkdownStyleSheet` down the tree | `MarkdownStyleSheet` is passed per widget by design — an inherited-widget lookup would add a second, implicit configuration path. |
-| #69 | Link label containing `@` is assumed to be `:mailto` | That is the CommonMark rule for `@`-prefixed destinations; overriding it would diverge from the spec. |
-| #74 | Wrap only the end of a long text following inline code | Flutter's line-breaking, not the renderer's. |
-| #78 | Give access to children | `MarkdownBuilder` is the documented extension point; exposing internal children would freeze the widget tree as API. |
-| #79 | Support selecting text using `SelectionArea` | Selection is already supported via `selectable` and `contextMenuBuilder`; `SelectionArea` compatibility is a Flutter-version concern, not a package gap. |
-| #80 | Writing an inline syntax/builder for coloured text | Usage question; `MarkdownElementBuilder` covers it and the README shows the pattern. |
-| #83 | Code lines in a header not rendered properly | Unreproducible; headers with code are covered by the golden suite. |
-| #87 | Parse markdown inside a custom `blockSyntax` | Deliberately out of scope — recursive Markdown parsing inside a custom block syntax risks unbounded recursion. |
-| #88 | Limit/restrict markdown functionality | The parser is `package:markdown`'s; restricting its grammar means a wrapper layer the package does not want to own. |
-| #91 | Custom widget for `h1`, `h2`, etc. | `MarkdownElementBuilder` already covers custom per-tag widgets; this is a usage question. |
-| #27 | Example broken | The example app is reworked for the fork (7.6.1 ships `material_ui_demo.dart`); tracked as a docs task. |
-| #30 | Scrollbars on tables drawn ~1 row too high | Cosmetic and unreproducible in the current golden tests; closing rather than carrying an unverifiable defect. |
-| #44 | Table horizontal scrolling indicator not at the bottom | Same as #30 — the indicator position is the platform scrollbar's. |
-| #102 | `TextWidthBasis` support | Overlaps #86's text-layout concern; same reason. |
-| #118 | Add `onLongPressURL` | Overlaps #49's `contextMenuBuilder` and #116's cursor work; not a separate API. |
-| #120 | Better documentation on images | Documentation, not behaviour — and the fork's README rewrite covers image usage. Tracked as a docs task, not an issue. |
+| [#3](https://github.com/arrrrny/zuraffa_markdown/issues/3) | #15 | Add support for Latex |
+| [#5](https://github.com/arrrrny/zuraffa_markdown/issues/5) | #26 | Needs a demo on how to change font size, spacing, padding etc. |
+| [#7](https://github.com/arrrrny/zuraffa_markdown/issues/7) | #29 | SVGs are not rendered |
+| [#8](https://github.com/arrrrny/zuraffa_markdown/issues/8) | #30 | Scrollbars on tables are drawn ~1 row too high |
+| [#9](https://github.com/arrrrny/zuraffa_markdown/issues/9) | #36 | Can not jump to selection |
+| [#14](https://github.com/arrrrny/zuraffa_markdown/issues/14) | #51 | For multi-line text with an image at the end - the image is always on a new line |
+| [#19](https://github.com/arrrrny/zuraffa_markdown/issues/19) | #56 | Screenreader: Ignore Bullet Points and Icons |
+| [#27](https://github.com/arrrrny/zuraffa_markdown/issues/27) | #65 | Support RTL |
+| [#28](https://github.com/arrrrny/zuraffa_markdown/issues/28) | #66 | strange behavior with custom MarkdownElementBuilder for links ('a' tag) |
+| [#30](https://github.com/arrrrny/zuraffa_markdown/issues/30) | #68 | Add a way to change the default `MarkdownStyleSheet` down the widget tree |
+| [#31](https://github.com/arrrrny/zuraffa_markdown/issues/31) | #69 | Any link label containing '@' is assumed to have a destination using :mailto |
+| [#34](https://github.com/arrrrny/zuraffa_markdown/issues/34) | #74 | Wrap only the end of a long text following an inline code element in Markdown |
+| [#35](https://github.com/arrrrny/zuraffa_markdown/issues/35) | #75 | [Safari] Markdown widget is not properly rendered |
+| [#37](https://github.com/arrrrny/zuraffa_markdown/issues/37) | #77 | Restructure flutter_markdown examples to avoid implementing values types |
+| [#38](https://github.com/arrrrny/zuraffa_markdown/issues/38) | #78 | give access to children |
+| [#40](https://github.com/arrrrny/zuraffa_markdown/issues/40) | #80 | Writing an inline sytax/builder for colored text |
+| [#43](https://github.com/arrrrny/zuraffa_markdown/issues/43) | #83 | code lines in header not rendered properly |
+| [#45](https://github.com/arrrrny/zuraffa_markdown/issues/45) | #85 | "scrollController.position.maxScrollExtent"  is not a fixed value |
+| [#46](https://github.com/arrrrny/zuraffa_markdown/issues/46) | #86 | rich text breaks in the middle of a whole sentence, and unicode text not shown. |
+| [#47](https://github.com/arrrrny/zuraffa_markdown/issues/47) | #87 | Parse markdown inside custom blockSyntax |
+| [#48](https://github.com/arrrrny/zuraffa_markdown/issues/48) | #88 | limit/restrict markdown functionality |
+| [#49](https://github.com/arrrrny/zuraffa_markdown/issues/49) | #89 | Please add example how to use in showDialog |
+| [#51](https://github.com/arrrrny/zuraffa_markdown/issues/51) | #91 | Feature Request: Custom Widget for h1, h2 etc. |
+| [#56](https://github.com/arrrrny/zuraffa_markdown/issues/56) | #98 | Let MarkdownWidget implement Text |
+| [#59](https://github.com/arrrrny/zuraffa_markdown/issues/59) | #101 | Library doesn't allow text as root element |
+| [#60](https://github.com/arrrrny/zuraffa_markdown/issues/60) | #102 | `TextWidthBasis` support |
+| [#63](https://github.com/arrrrny/zuraffa_markdown/issues/63) | #107 | Remove padding/blockspacing under headings |
+| [#66](https://github.com/arrrrny/zuraffa_markdown/issues/66) | #110 | Checkboxes aren't checkable |
+| [#67](https://github.com/arrrrny/zuraffa_markdown/issues/67) | #111 | Provide Information About Using URL Parameters In Links |
+| [#74](https://github.com/arrrrny/zuraffa_markdown/issues/74) | #118 | Add onLongPressURL |
+| [#76](https://github.com/arrrrny/zuraffa_markdown/issues/76) | #120 | Better Documentation on Images |
+| [#79](https://github.com/arrrrny/zuraffa_markdown/issues/79) | #123 | [Documentation]: Add samples, examples for `onTapLink`, `styleSheets` |
+| [#82](https://github.com/arrrrny/zuraffa_markdown/issues/82) | #129 | Markdown parsing error: bold syntax ** fails when preceded by a closing parenthesis ） |
+| [#83](https://github.com/arrrrny/zuraffa_markdown/issues/83) | #132 | MarkdownElementBuilder replaces only first child when builder returns a widget for inline elements |
+| [#84](https://github.com/arrrrny/zuraffa_markdown/issues/84) | #133 | Is this package still being maintained ? There are no new releases in the last 5 months? |
 
-## Cross-references
+## How to read an imported issue
 
-These are **not** declined — they are tracked in the Planned section above and are
-listed here only so a reader searching for the title finds the pointer:
+Every imported issue's body carries:
 
-- #19, #43 — list spacing API (`listSpacing` / `listPadding`)
-- #21, #96, #108 — `maxLines` / `overflow`
-- #32, #113 — task-list syntax configurability
-- #33, #105, #125 — blockquote styling and margins
-- #40, #124 — in-page anchors
-- #47, #71, #76, #146 — text selection
-- #82 — API doc link rot
-- #99, #48, #73 — text alignment
-- #109, #152 — `StrutStyle` / `forceStrutHeight`
-- #115, #142 — list and table spacing/width
-- #151 — closed upstream as a duplicate of #144
+- a backlink to the upstream issue it came from
+- the upstream duplicates folded into it, if any
+- its disposition and, for planned work, its priority
+- the reasoning — including, for declined work, why it was ruled out
 
-## What this fork fixes beyond the migration
+## Verification
 
-Two inherited issues were fixed *by* the material_ui work rather than by a targeted change:
+The import was checked to be a complete partition of the upstream backlog:
 
-- **#121 / #95 (dark theme)** — the old code read a hard-coded blockquote colour and an SDK `Theme` that a `material_ui` tree does not have. Both now come from the resolved theme.
-- **#144 / #151 (material_ui)** — the headline fix.
-
-## Verification method
-
-"Fixed" claims above were checked against the code in this fork, not taken from the
-upstream changelog:
-
-```bash
-grep -n "contextMenuBuilder" lib/src/widget.dart           # #49
-grep -n "surfaceContainerHighest" lib/src/style_sheet.dart # #95
-grep -n "tag == 'hr'" lib/src/builder.dart                 # #46/#57
-grep -n "shrinkWrap" lib/src/widget.dart                   # #81
-grep -n "textAlign" lib/src/builder.dart                   # #99/#48/#73
-grep -n "onSelectionChanged" lib/src/widget.dart           # #62
+```
+upstream issues:            106
+referenced in the fork:     106
+missing:                    0
 ```
 
-Any "fixed" row a reader cannot reproduce with a similar one-liner should be filed as
-a new issue against this fork.
+Run it yourself:
+
+```bash
+gh issue list --repo arrrrny/zuraffa_markdown --state all --limit 300 \
+  --json number,body --jq '[.[].body] | join("\n")' \
+  | grep -oE 'flutter_markdown_plus/issues/[0-9]+' | sort -u
+```
