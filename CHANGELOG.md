@@ -1,5 +1,10 @@
 ## 7.6.2
 
+* **Fixed: the README's migration guide named the wrong source package.** The
+  "Migrating from" section and both of its diffs read `zuraffa_markdown` on both
+  sides, so they told upgraders to migrate from the package they were moving *to*.
+  The source is `flutter_markdown_plus` 1.0.12. This corrects the text that shipped
+  in 7.6.1's pub.dev listing (review finding on #1).
 * **Fixed: an application on the SDK's `MaterialApp` now keeps its own theme** (review finding on #1). `kFallbackStyle` read `material_ui`'s `Theme.of(context)` unconditionally, but that only resolves a `material_ui` ancestor — under an SDK `MaterialApp` it silently returned `material_ui`'s built-in fallback theme, so the app's colours and typography were dropped from rendered Markdown without any error. Both fallbacks now pick the family from the tree: `MarkdownStyleSheet.fromSdkTheme` / `fromSdkCupertinoTheme` read the SDK theme when an SDK `Theme`/`CupertinoTheme` ancestor is present, otherwise the `material_ui`/`cupertino_ui` one. Both theme families now work in the same package, and both are covered by `test/theme_family_test.dart`.
 
 ## 7.6.1
