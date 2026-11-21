@@ -45,3 +45,6 @@ flutter_markdown_plus_latex
 
 # Claude Code project instructions (kept local, not shared via git)
 CLAUDE.md
+
+# Local build output
+build/

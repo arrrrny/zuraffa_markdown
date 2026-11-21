@@ -11,7 +11,7 @@
 /// plain text Markdown syntax.
 ///
 /// import 'package:flutter/material.dart';
-/// import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+/// import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 ///
 /// const String _markdownData = """
 /// # Minimal Markdown Test
@@ -57,6 +57,7 @@
 library;
 
 import 'package:flutter/material.dart';
+
 import 'screens/demo_screen.dart';
 import 'screens/home_screen.dart';
 import 'shared/markdown_demo_widget.dart';
@@ -68,11 +69,7 @@ void main() {
       initialRoute: '/',
       home: HomeScreen(),
       onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute<void>(
-          builder: (_) => DemoScreen(
-            child: settings.arguments as MarkdownDemoWidget?,
-          ),
-        );
+        return MaterialPageRoute<void>(builder: (_) => DemoScreen(child: settings.arguments as MarkdownDemoWidget?));
       },
     ),
   );

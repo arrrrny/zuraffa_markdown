@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 
 // #docregion CreateMarkdownWithEmojiExtension
 import 'package:markdown/markdown.dart' as md;
+
 // #enddocregion CreateMarkdownWithEmojiExtension
 
 /// Create a simple `Markdown` wdget.
@@ -32,11 +33,7 @@ void createMarkdownWithEmoji() {
   final ScrollController controller = ScrollController();
 
   // #docregion CreateMarkdownWithEmoji
-  Markdown(
-    controller: controller,
-    selectable: true,
-    data: 'Insert emoji here😀 ',
-  );
+  Markdown(controller: controller, selectable: true, data: 'Insert emoji here😀 ');
   // #enddocregion CreateMarkdownWithEmoji
 }
 
@@ -49,10 +46,10 @@ void createMarkdownWithEmojiExtension() {
     controller: controller,
     selectable: true,
     data: 'Insert emoji :smiley: here',
-    extensionSet: md.ExtensionSet(
-      md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-      <md.InlineSyntax>[md.EmojiSyntax(), ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes],
-    ),
+    extensionSet: md.ExtensionSet(md.ExtensionSet.gitHubFlavored.blockSyntaxes, <md.InlineSyntax>[
+      md.EmojiSyntax(),
+      ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
+    ]),
   );
   // #enddocregion CreateMarkdownWithEmojiExtension
 }

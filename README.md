@@ -1,11 +1,28 @@
-# Flutter Markdown Plus
-[![pub package](https://img.shields.io/pub/v/flutter_markdown_plus.svg)](https://pub.dartlang.org/packages/flutter_markdown_plus)
+# zuraffa_markdown
+[![pub package](https://img.shields.io/pub/v/zuraffa_markdown.svg)](https://pub.dartlang.org/packages/zuraffa_markdown)
 
 ## About This Package
 
-`flutter_markdown_plus` is the continuation of the original [`flutter_markdown`](https://pub.dev/packages/flutter_markdown) package that was developed and maintained by Google. As the original package has been discontinued, Foresight Mobile has taken over maintenance of this project to ensure continued support and development for the Flutter community.
+`zuraffa_markdown` is a fork of [`flutter_markdown_plus`](https://pub.dev/packages/flutter_markdown_plus), which is itself the continuation of the original [`flutter_markdown`](https://pub.dev/packages/flutter_markdown) package developed and maintained by Google. The upstream project has gone quiet — its last release was in July 2026, and its [issue tracker](https://github.com/foresightmobile/flutter_markdown_plus/issues) has accumulated a large backlog with no maintainer response.
 
-The package is **actively maintained**: bug reports are triaged against the current release, community pull requests are reviewed and merged with credit, and fixes and additive features ship regularly as patch releases. See the [changelog](https://pub.dev/packages/flutter_markdown_plus/changelog) and [GitHub releases](https://github.com/foresightmobile/flutter_markdown_plus/releases) for the full history, and [`CONTRIBUTING.md`](CONTRIBUTING.md) if you'd like to help.
+The fork exists to fix one blocking defect and keep the package moving: **it renders correctly inside an application built on [`material_ui`](https://pub.dev/packages/material_ui)**, the Flutter team's replacement for the SDK's bundled Material library. Flutter 3.47 deprecated `package:flutter/material.dart`, so every application that follows that guidance needs a Markdown renderer that reads the new theme family.
+
+The package is **actively maintained**: bug reports are triaged against the current release, community pull requests are reviewed and merged with credit, and fixes and additive features ship regularly. See the [changelog](https://pub.dev/packages/zuraffa_markdown/changelog) and [`CONTRIBUTING.md`](CONTRIBUTING.md) if you'd like to help.
+
+### Why this fork exists
+
+Upstream imports `package:flutter/material.dart` in five library files, and its fallback style generator calls `Theme.of(context)` **unconditionally** on every parse. On an application whose tree is built on `material_ui` there is no SDK `Theme` ancestor to find — so the package cannot render at all, and passing a complete `styleSheet` does not help, because the fallback is computed before the caller's sheet is merged over it.
+
+See [upstream issue #144](https://github.com/foresightmobile/flutter_markdown_plus/issues/144) for the full analysis.
+
+### Inherited issue triage
+
+Upstream's 99 open issues have been triaged — 13 already fixed in 7.6.1, 44 planned, 43
+declined with a stated reason. See [doc/issue-triage.md](doc/issue-triage.md).
+
+### Inherited capabilities
+
+Upstream's recent work is carried forward unchanged:
 
 ### Recent highlights
 
@@ -16,8 +33,6 @@ The package is **actively maintained**: bug reports are triaged against the curr
 - **Integration test suite** running on a real device or emulator, plus a GitHub Actions job on an Android emulator (1.0.8).
 
 For historical context, see the [original flutter_markdown package](https://pub.dev/packages/flutter_markdown).
-
-**LaTeX Support:** For LaTeX rendering support, check out the [`flutter_markdown_plus_latex`](https://pub.dev/packages/flutter_markdown_plus_latex) package.
 
 ## Features
 
@@ -44,26 +59,71 @@ For historical context, see the [original flutter_markdown package](https://pub.
 Add the package to your project:
 
 ```bash
-flutter pub add flutter_markdown_plus
+flutter pub add zuraffa_markdown
 ```
 
 Then import it where you need it:
 
 ```dart
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 ```
 
 A markdown renderer for Flutter. It supports the
 [original format](https://daringfireball.net/projects/markdown/), but no inline
 HTML.
 
+### Migrating from `flutter_markdown_plus`
+
+Change the dependency name and version, and the import. Nothing else:
+
+```diff
+-  flutter_markdown_plus: ^1.0.12
++  zuraffa_markdown: ^7.6.1
+```
+
+```diff
+-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
++import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+```
+
+The public API is unchanged: every class, constructor, named parameter and default
+value keeps its name, type and meaning.
+
+### Rendering on a `material_ui` application
+
+`zuraffa_markdown` reads whichever theme family is present in the tree. On an
+application built on `material_ui` — with no SDK `Theme` ancestor anywhere — the
+fallback style sheet is derived from the `material_ui` theme:
+
+```dart
+import 'package:material_ui/material_ui.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+
+MaterialApp(
+  theme: ThemeData(brightness: Brightness.light),
+  home: Scaffold(
+    body: Markdown(
+      data: '''
+# Hello
+
+A **bold** statement.''',
+    ),
+  ),
+)
+```
+
+Applications still on the SDK's `MaterialApp` keep rendering, but under an SDK
+`MaterialApp` the fork cannot read the application theme (that would require
+`material_ui`'s own `MaterialApp`/`Theme` ancestors), so the fallback style sheet
+falls back to `material_ui`'s default theme rather than the SDK theme.
+
 ## Overview
 
-The [`flutter_markdown_plus`](https://pub.dev/packages/flutter_markdown_plus) package
+The [`zuraffa_markdown`](https://pub.dev/packages/zuraffa_markdown) package
 renders Markdown, a lightweight markup language, into a Flutter widget
 containing a rich text representation.
 
-`flutter_markdown_plus` is built on top of the Dart
+`zuraffa_markdown` is built on top of the Dart
 [`markdown`](https://pub.dev/packages/markdown) package, which parses
 the Markdown into an abstract syntax tree (AST). The nodes of the AST are an
 HTML representation of the Markdown data.
@@ -80,9 +140,9 @@ generated HTML. This *trick* has allowed users to perform some customization
 or tweaking of the HTML output. A common HTML tweak is to insert HTML line-break
 elements **\<br />** in Markdown source to force additional line breaks not
 supported by the Markdown syntax. This HTML *trick* doesn't apply to Flutter. The
-`flutter_markdown_plus` package doesn't support inline HTML.
+`zuraffa_markdown` package doesn't support inline HTML.
 
-## Markdown Specifications and `flutter_markdown_plus` Compliance
+## Markdown Specifications and `zuraffa_markdown` Compliance
 
 There are three seminal documents regarding Markdown syntax; the
 [original Markdown syntax documentation](https://daringfireball.net/projects/markdown/syntax) 
@@ -94,11 +154,11 @@ The CommonMark specification brings order to and clarifies the Markdown syntax
 cases left ambiguous or unclear in the Gruber document. GitHub Flavored
 Markdown (GFM) is a strict superset of CommonMark used by GitHub.
 
-The `markdown` package, and in extension, the `flutter_markdown_plus` package, supports
+The `markdown` package, and in extension, the `zuraffa_markdown` package, supports
 four levels of Markdown syntax; basic, CommonMark, GitHub Flavored, and GitHub
 Web. Basic, CommonMark, and GitHub Flavored adhere to the three Markdown
 documents, respectively. GitHub Web adds header ID and emoji support. The
-`flutter_markdown_plus` package defaults to GitHub Flavored Markdown.
+`zuraffa_markdown` package defaults to GitHub Flavored Markdown.
 
 ## Getting Started
 
@@ -258,7 +318,7 @@ The `Img` tag only supports the following image locations:
 ## Verifying Markdown Behavior
 
 Verifying Markdown behavior in other applications can often be useful to track
-down or identify unexpected output from the `flutter_markdown_plus` package. Two
+down or identify unexpected output from the `zuraffa_markdown` package. Two
 valuable resources are the
 [Dart Markdown Live Editor](https://dart-lang.github.io/markdown/) and the
 [Markdown Live Preview](https://markdownlivepreview.com/). These two resources
@@ -275,4 +335,8 @@ Here are some additional Markdown syntax resources:
 
 ## Maintainers
 
-This package is proudly maintained by [Gareth Reese](https://github.com/gazreese) and [Marko Radisavljevic](https://github.com/Prototypev1) for [Foresight Mobile](https://foresightmobile.com/) ([GitHub](https://github.com/foresightmobile/))
+Upstream was maintained by [Gareth Reese](https://github.com/gazreese) and [Marko Radisavljevic](https://github.com/Prototypev1) for [Foresight Mobile](https://foresightmobile.com/).
+
+This fork is maintained by the Zuraffa project. Please file issues at
+[arrrrny/zuraffa_markdown](https://github.com/arrrrny/zuraffa_markdown/issues) — the
+upstream tracker is not monitored.

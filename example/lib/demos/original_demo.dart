@@ -6,7 +6,8 @@
 // ignore_for_file: avoid_implementing_value_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
+
 import '../shared/markdown_demo_widget.dart';
 
 // ignore_for_file: public_member_api_docs
@@ -153,7 +154,8 @@ class OriginalMarkdownDemo extends StatelessWidget implements MarkdownDemoWidget
   String get title => OriginalMarkdownDemo._title;
 
   @override
-  String get description => 'The original demo example. This demo was '
+  String get description =>
+      'The original demo example. This demo was '
       'include with versions of the package prior to version 0.4.4.';
 
   @override

@@ -1,15 +1,16 @@
-name: flutter_markdown_plus
-description: A Markdown renderer for Flutter. Create rich text output,
-  including text styles, tables, links, and more, from plain text data
-  formatted with simple Markdown tags.
-repository: https://github.com/foresightmobile/flutter_markdown_plus
-issue_tracker: https://github.com/foresightmobile/flutter_markdown_plus/issues
-documentation: https://pub.dev/documentation/flutter_markdown_plus/latest/
-version: 1.0.12
+name: zuraffa_markdown
+description: A Markdown renderer for Flutter with first-class material_ui support.
+  Create rich text output, including text styles, tables, links, and more, from plain
+  text data formatted with simple Markdown tags. A Zuraffa-maintained continuation of
+  flutter_markdown_plus.
+repository: https://github.com/arrrrny/zuraffa_markdown
+issue_tracker: https://github.com/arrrrny/zuraffa_markdown/issues
+documentation: https://pub.dev/documentation/zuraffa_markdown/latest/
+version: 7.6.1
 
 environment:
-  sdk: ^3.4.0
-  flutter: ">=3.27.1"
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:
@@ -17,6 +18,8 @@ dependencies:
   markdown: ^7.3.1
   meta: ^1.16.0
   path: ^1.9.1
+  material_ui: ^1.11.1
+  cupertino_ui: ^1.1.7
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -28,7 +31,9 @@ dev_dependencies:
 
 topics:
   - markdown
+  - material-ui
   - widgets
+  - zuraffa
 
 screenshots:
   - description: Rich text, emphasis, blockquotes and lists rendered from Markdown.

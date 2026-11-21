@@ -24,9 +24,9 @@
 import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:zuraffa_markdown/zuraffa_markdown.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final bool _isLinux = !kIsWeb && io.Platform.isLinux;
@@ -116,9 +116,7 @@ Future<void> _expectGolden(WidgetTester tester, String data, String file) async 
     useMaterial3: true,
     brightness: Brightness.light,
   );
-  final ThemeData theme = base.copyWith(
-    textTheme: base.textTheme.apply(fontFamily: 'Roboto'),
-  );
+  final ThemeData theme = base.copyWith(textTheme: base.textTheme.apply(fontFamily: 'Roboto'));
 
   await tester.pumpWidget(
     MaterialApp(

@@ -1,23 +1,21 @@
-name: flutter_markdown_example
-description: Demonstrates how to use the flutter_markdown_plus package.
+name: zuraffa_markdown_example
+description: Demonstrates how to use the zuraffa_markdown package.
 publish_to: none
 
 environment:
-  sdk: ^3.4.0
-  flutter: ">=3.27.1"
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-#  flutter_markdown_plus: ^1.0.3
-
-  flutter_markdown_plus:
+  zuraffa_markdown:
     path: ../
-#  flutter_markdown_plus_latex:
-#    path: ../../flutter_markdown_plus_latex   # For relative path testing
 
   markdown: ^7.3.0
+
+  material_ui: ^1.11.1
 
 
 dev_dependencies:
