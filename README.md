@@ -15,6 +15,11 @@ Upstream imports `package:flutter/material.dart` in five library files, and its 
 
 See [upstream issue #144](https://github.com/foresightmobile/flutter_markdown_plus/issues/144) for the full analysis.
 
+### Inherited issue triage
+
+Upstream's 99 open issues have been triaged — 13 already fixed in 7.6.1, 44 planned, 43
+declined with a stated reason. See [docs/issue-triage.md](docs/issue-triage.md).
+
 ### Inherited capabilities
 
 Upstream's recent work is carried forward unchanged:
