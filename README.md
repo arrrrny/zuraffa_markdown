@@ -18,7 +18,7 @@ See [upstream issue #144](https://github.com/foresightmobile/flutter_markdown_pl
 ### Inherited issue triage
 
 Upstream's 99 open issues have been triaged — 13 already fixed in 7.6.1, 44 planned, 43
-declined with a stated reason. See [docs/issue-triage.md](docs/issue-triage.md).
+declined with a stated reason. See [doc/issue-triage.md](doc/issue-triage.md).
 
 ### Inherited capabilities
 
