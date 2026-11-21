@@ -4,8 +4,15 @@
 
 import 'dart:js_interop';
 
-import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoTheme;
-import 'package:material_ui/material_ui.dart' show Theme;
+import 'package:cupertino_ui/cupertino_ui.dart' as cupertino_ui;
+// The SDK Material and Cupertino libraries are deprecated as of Flutter 3.47, but
+// applications that have not migrated to `material_ui` still insert their theme
+// ancestors, so the package keeps reading them.
+// ignore: deprecated_member_use
+import 'package:flutter/cupertino.dart' as sdk_cupertino;
+// ignore: deprecated_member_use
+import 'package:flutter/material.dart' as sdk_material;
+import 'package:material_ui/material_ui.dart' as material_ui;
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as p;
 
@@ -68,14 +75,34 @@ final MarkdownStyleSheet Function(BuildContext, MarkdownStyleSheetBaseTheme?)
 // ignore: prefer_function_declarations_over_variables
 kFallbackStyle = (BuildContext context, MarkdownStyleSheetBaseTheme? baseTheme) {
   final MarkdownStyleSheet result = switch (baseTheme) {
-    MarkdownStyleSheetBaseTheme.platform when _userAgent.toDart.contains('Mac OS X') =>
-      MarkdownStyleSheet.fromCupertinoTheme(CupertinoTheme.of(context)),
-    MarkdownStyleSheetBaseTheme.cupertino => MarkdownStyleSheet.fromCupertinoTheme(CupertinoTheme.of(context)),
-    _ => MarkdownStyleSheet.fromTheme(Theme.of(context)),
+    MarkdownStyleSheetBaseTheme.platform when _userAgent.toDart.contains('Mac OS X') => _cupertinoStyleSheet(context),
+    MarkdownStyleSheetBaseTheme.cupertino => _cupertinoStyleSheet(context),
+    _ => _materialStyleSheet(context),
   };
 
   return result.copyWith(textScaler: MediaQuery.textScalerOf(context));
 };
+
+/// Resolves the Material style sheet from whichever theme family the tree has.
+///
+/// [material_ui]'s `Theme.of` returns its own built-in fallback when it finds no
+/// `material_ui` ancestor, so a null check cannot tell the two families apart.
+/// The ancestor widget itself is the discriminator: an SDK `MaterialApp` inserts
+/// an SDK `Theme`, a `material_ui` app inserts a `material_ui` `Theme`.
+MarkdownStyleSheet _materialStyleSheet(BuildContext context) {
+  if (context.findAncestorWidgetOfExactType<sdk_material.Theme>() != null) {
+    return MarkdownStyleSheet.fromSdkTheme(sdk_material.Theme.of(context));
+  }
+  return MarkdownStyleSheet.fromTheme(material_ui.Theme.of(context));
+}
+
+/// The Cupertino counterpart of [_materialStyleSheet].
+MarkdownStyleSheet _cupertinoStyleSheet(BuildContext context) {
+  if (context.findAncestorWidgetOfExactType<sdk_cupertino.CupertinoTheme>() != null) {
+    return MarkdownStyleSheet.fromSdkCupertinoTheme(sdk_cupertino.CupertinoTheme.of(context));
+  }
+  return MarkdownStyleSheet.fromCupertinoTheme(cupertino_ui.CupertinoTheme.of(context));
+}
 
 Widget _handleDataSchemeUri(Uri uri, double? width, double? height) {
   final String mimeType = uri.data!.mimeType;

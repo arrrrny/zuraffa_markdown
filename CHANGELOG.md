@@ -1,3 +1,7 @@
+## 7.6.2
+
+* **Fixed: an application on the SDK's `MaterialApp` now keeps its own theme** (review finding on #1). `kFallbackStyle` read `material_ui`'s `Theme.of(context)` unconditionally, but that only resolves a `material_ui` ancestor — under an SDK `MaterialApp` it silently returned `material_ui`'s built-in fallback theme, so the app's colours and typography were dropped from rendered Markdown without any error. Both fallbacks now pick the family from the tree: `MarkdownStyleSheet.fromSdkTheme` / `fromSdkCupertinoTheme` read the SDK theme when an SDK `Theme`/`CupertinoTheme` ancestor is present, otherwise the `material_ui`/`cupertino_ui` one. Both theme families now work in the same package, and both are covered by `test/theme_family_test.dart`.
+
 ## 7.6.1
 
 * **Fork of `flutter_markdown_plus` 1.0.12**, published as part of the Zuraffa fleet and aligned with the rest of the fleet at version 7.6.1 (`zuraffa`, `zuraffa_ui`, `zuraffa_graphql`). The package is renamed to `zuraffa_markdown`; the public API is otherwise unchanged.

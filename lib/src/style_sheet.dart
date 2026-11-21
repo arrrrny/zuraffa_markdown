@@ -3,6 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:cupertino_ui/cupertino_ui.dart';
+// The SDK Material library is deprecated as of Flutter 3.47, but applications that
+// have not migrated to `material_ui` still insert its theme ancestor, so the
+// package keeps reading it.
+// ignore: deprecated_member_use
+import 'package:flutter/cupertino.dart' as sdk_cupertino;
+// ignore: deprecated_member_use
+import 'package:flutter/material.dart' as sdk;
 import 'package:material_ui/material_ui.dart';
 
 /// Defines which [TextStyle] objects to use for which Markdown elements.
@@ -100,133 +107,197 @@ class MarkdownStyleSheet {
 
   /// Creates a [MarkdownStyleSheet] from the [TextStyle]s in the provided [ThemeData].
   factory MarkdownStyleSheet.fromTheme(ThemeData theme) {
-    assert(theme.textTheme.bodyMedium?.fontSize != null);
+    return MarkdownStyleSheet._fromThemeParts(
+      bodyMedium: theme.textTheme.bodyMedium,
+      headlineSmall: theme.textTheme.headlineSmall,
+      titleLarge: theme.textTheme.titleLarge,
+      titleMedium: theme.textTheme.titleMedium,
+      bodyLarge: theme.textTheme.bodyLarge,
+      cardColor: theme.cardTheme.color,
+      fallbackCardColor: theme.cardColor,
+      dividerColor: theme.dividerColor,
+      primaryColor: theme.primaryColor,
+      surfaceContainerHighest: theme.colorScheme.surfaceContainerHighest,
+      colorSchemePrimary: theme.colorScheme.primary,
+    );
+  }
+
+  /// Creates a [MarkdownStyleSheet] from the [TextStyle]s in the provided
+  /// [sdk.ThemeData].
+  ///
+  /// An application that still uses the SDK's `MaterialApp` inserts the SDK's own
+  /// theme ancestor, which `material_ui`'s `Theme.of` cannot see. Without this
+  /// factory such an application would silently fall back to `material_ui`'s
+  /// built-in default theme and lose its own colours and typography.
+  factory MarkdownStyleSheet.fromSdkTheme(sdk.ThemeData theme) {
+    return MarkdownStyleSheet._fromThemeParts(
+      bodyMedium: theme.textTheme.bodyMedium,
+      headlineSmall: theme.textTheme.headlineSmall,
+      titleLarge: theme.textTheme.titleLarge,
+      titleMedium: theme.textTheme.titleMedium,
+      bodyLarge: theme.textTheme.bodyLarge,
+      cardColor: theme.cardTheme.color,
+      fallbackCardColor: theme.cardColor,
+      dividerColor: theme.dividerColor,
+      primaryColor: theme.primaryColor,
+      surfaceContainerHighest: theme.colorScheme.surfaceContainerHighest,
+      colorSchemePrimary: theme.colorScheme.primary,
+    );
+  }
+
+  /// The shared body of [fromTheme] and [fromSdkTheme].
+  ///
+  /// Both theme families declare their own [ThemeData] and [TextTheme], but the
+  /// leaf types are shared `dart:ui` types — [TextStyle], [Color], [TextAlign] —
+  /// so the mapping is expressed once here over those primitives instead of twice
+  /// over two incompatible theme types.
+  factory MarkdownStyleSheet._fromThemeParts({
+    required TextStyle? bodyMedium,
+    required TextStyle? headlineSmall,
+    required TextStyle? titleLarge,
+    required TextStyle? titleMedium,
+    required TextStyle? bodyLarge,
+    required Color? cardColor,
+    required Color? fallbackCardColor,
+    required Color dividerColor,
+    required Color primaryColor,
+    required Color surfaceContainerHighest,
+    required Color colorSchemePrimary,
+  }) {
+    assert(bodyMedium?.fontSize != null);
+    final body = bodyMedium!;
     return MarkdownStyleSheet(
       a: const TextStyle(color: Colors.blue),
-      p: theme.textTheme.bodyMedium,
+      p: body,
       pPadding: EdgeInsets.zero,
-      code: theme.textTheme.bodyMedium!.copyWith(
-        backgroundColor: theme.cardTheme.color,
-        fontFamily: 'monospace',
-        fontSize: theme.textTheme.bodyMedium!.fontSize! * 0.85,
-      ),
-      h1: theme.textTheme.headlineSmall,
+      code: body.copyWith(backgroundColor: cardColor, fontFamily: 'monospace', fontSize: body.fontSize! * 0.85),
+      h1: headlineSmall,
       h1Padding: EdgeInsets.zero,
-      h2: theme.textTheme.titleLarge,
+      h2: titleLarge,
       h2Padding: EdgeInsets.zero,
-      h3: theme.textTheme.titleMedium,
+      h3: titleMedium,
       h3Padding: EdgeInsets.zero,
-      h4: theme.textTheme.bodyLarge,
+      h4: bodyLarge,
       h4Padding: EdgeInsets.zero,
-      h5: theme.textTheme.bodyLarge,
+      h5: bodyLarge,
       h5Padding: EdgeInsets.zero,
-      h6: theme.textTheme.bodyLarge,
+      h6: bodyLarge,
       h6Padding: EdgeInsets.zero,
       em: const TextStyle(fontStyle: FontStyle.italic),
       strong: const TextStyle(fontWeight: FontWeight.bold),
       del: const TextStyle(decoration: TextDecoration.lineThrough),
-      blockquote: theme.textTheme.bodyMedium,
-      img: theme.textTheme.bodyMedium,
-      checkbox: theme.textTheme.bodyMedium!.copyWith(color: theme.primaryColor),
+      blockquote: body,
+      img: body,
+      checkbox: body.copyWith(color: primaryColor),
       blockSpacing: 8.0,
       listIndent: 24.0,
-      listBullet: theme.textTheme.bodyMedium,
+      listBullet: body,
       listBulletPadding: const EdgeInsets.only(right: 4),
       tableHead: const TextStyle(fontWeight: FontWeight.w600),
-      tableBody: theme.textTheme.bodyMedium,
+      tableBody: body,
       tableHeadAlign: TextAlign.center,
       tablePadding: const EdgeInsets.only(bottom: 4.0),
-      tableBorder: TableBorder.all(color: theme.dividerColor),
+      tableBorder: TableBorder.all(color: dividerColor),
       tableColumnWidth: const FlexColumnWidth(),
       tableCellsPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       tableCellsDecoration: const BoxDecoration(),
       blockquotePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       blockquoteDecoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: surfaceContainerHighest,
         borderRadius: BorderRadius.circular(3),
-        border: Border(left: BorderSide(color: theme.colorScheme.primary, width: 3)),
+        border: Border(left: BorderSide(color: colorSchemePrimary, width: 3)),
       ),
       codeblockPadding: const EdgeInsets.all(8.0),
       codeblockDecoration: BoxDecoration(
-        color: theme.cardTheme.color ?? theme.cardColor,
+        color: cardColor ?? fallbackCardColor,
         borderRadius: BorderRadius.circular(2.0),
       ),
       horizontalRuleDecoration: BoxDecoration(
-        border: Border(top: BorderSide(width: 5.0, color: theme.dividerColor)),
+        border: Border(top: BorderSide(width: 5.0, color: dividerColor)),
       ),
     );
   }
 
   /// Creates a [MarkdownStyleSheet] from the [TextStyle]s in the provided [CupertinoThemeData].
   factory MarkdownStyleSheet.fromCupertinoTheme(CupertinoThemeData theme) {
-    assert(theme.textTheme.textStyle.fontSize != null);
+    return MarkdownStyleSheet._fromCupertinoParts(
+      textStyle: theme.textTheme.textStyle,
+      brightness: theme.brightness,
+      primaryColor: theme.primaryColor,
+    );
+  }
+
+  /// Creates a [MarkdownStyleSheet] from the provided SDK [CupertinoThemeData].
+  ///
+  /// The SDK-Cupertino counterpart of [fromCupertinoTheme], for applications
+  /// still on the SDK's `CupertinoApp` — see [fromSdkTheme].
+  factory MarkdownStyleSheet.fromSdkCupertinoTheme(sdk_cupertino.CupertinoThemeData theme) {
+    return MarkdownStyleSheet._fromCupertinoParts(
+      textStyle: theme.textTheme.textStyle,
+      brightness: theme.brightness,
+      primaryColor: theme.primaryColor,
+    );
+  }
+
+  /// The shared body of [fromCupertinoTheme] and [fromSdkCupertinoTheme].
+  ///
+  /// Both Cupertino families expose a single [TextStyle] plus a [Brightness]; the
+  /// rest is arithmetic on shared `dart:ui` types, so it is expressed once here.
+  factory MarkdownStyleSheet._fromCupertinoParts({
+    required TextStyle textStyle,
+    required Brightness? brightness,
+    required Color primaryColor,
+  }) {
+    assert(textStyle.fontSize != null);
     return MarkdownStyleSheet(
-      a: theme.textTheme.textStyle.copyWith(
-        color: theme.brightness == Brightness.dark ? CupertinoColors.link.darkColor : CupertinoColors.link.color,
+      a: textStyle.copyWith(
+        color: brightness == Brightness.dark ? CupertinoColors.link.darkColor : CupertinoColors.link.color,
       ),
-      p: theme.textTheme.textStyle,
+      p: textStyle,
       pPadding: EdgeInsets.zero,
-      code: theme.textTheme.textStyle.copyWith(
-        fontFamily: 'monospace',
-        fontSize: theme.textTheme.textStyle.fontSize! * 0.85,
-      ),
-      h1: theme.textTheme.textStyle.copyWith(
-        fontWeight: FontWeight.w500,
-        fontSize: theme.textTheme.textStyle.fontSize! + 10,
-      ),
+      code: textStyle.copyWith(fontFamily: 'monospace', fontSize: textStyle.fontSize! * 0.85),
+      h1: textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: textStyle.fontSize! + 10),
       h1Padding: EdgeInsets.zero,
-      h2: theme.textTheme.textStyle.copyWith(
-        fontWeight: FontWeight.w500,
-        fontSize: theme.textTheme.textStyle.fontSize! + 8,
-      ),
+      h2: textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: textStyle.fontSize! + 8),
       h2Padding: EdgeInsets.zero,
-      h3: theme.textTheme.textStyle.copyWith(
-        fontWeight: FontWeight.w500,
-        fontSize: theme.textTheme.textStyle.fontSize! + 6,
-      ),
+      h3: textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: textStyle.fontSize! + 6),
       h3Padding: EdgeInsets.zero,
-      h4: theme.textTheme.textStyle.copyWith(
-        fontWeight: FontWeight.w500,
-        fontSize: theme.textTheme.textStyle.fontSize! + 4,
-      ),
+      h4: textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: textStyle.fontSize! + 4),
       h4Padding: EdgeInsets.zero,
-      h5: theme.textTheme.textStyle.copyWith(
-        fontWeight: FontWeight.w500,
-        fontSize: theme.textTheme.textStyle.fontSize! + 2,
-      ),
+      h5: textStyle.copyWith(fontWeight: FontWeight.w500, fontSize: textStyle.fontSize! + 2),
       h5Padding: EdgeInsets.zero,
-      h6: theme.textTheme.textStyle.copyWith(fontWeight: FontWeight.w500),
+      h6: textStyle.copyWith(fontWeight: FontWeight.w500),
       h6Padding: EdgeInsets.zero,
-      em: theme.textTheme.textStyle.copyWith(fontStyle: FontStyle.italic),
-      strong: theme.textTheme.textStyle.copyWith(fontWeight: FontWeight.bold),
-      del: theme.textTheme.textStyle.copyWith(decoration: TextDecoration.lineThrough),
-      blockquote: theme.textTheme.textStyle,
-      img: theme.textTheme.textStyle,
-      checkbox: theme.textTheme.textStyle.copyWith(color: theme.primaryColor),
+      em: textStyle.copyWith(fontStyle: FontStyle.italic),
+      strong: textStyle.copyWith(fontWeight: FontWeight.bold),
+      del: textStyle.copyWith(decoration: TextDecoration.lineThrough),
+      blockquote: textStyle,
+      img: textStyle,
+      checkbox: textStyle.copyWith(color: primaryColor),
       blockSpacing: 8,
       listIndent: 24,
-      listBullet: theme.textTheme.textStyle,
+      listBullet: textStyle,
       listBulletPadding: const EdgeInsets.only(right: 4),
-      tableHead: theme.textTheme.textStyle.copyWith(fontWeight: FontWeight.w600),
-      tableBody: theme.textTheme.textStyle,
+      tableHead: textStyle.copyWith(fontWeight: FontWeight.w600),
+      tableBody: textStyle,
       tableHeadAlign: TextAlign.center,
       tablePadding: const EdgeInsets.only(bottom: 8),
       tableBorder: TableBorder.all(color: CupertinoColors.separator, width: 0),
       tableColumnWidth: const FlexColumnWidth(),
       tableCellsPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       tableCellsDecoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
+        color: brightness == Brightness.dark
             ? CupertinoColors.systemGrey6.darkColor
             : CupertinoColors.systemGrey6.color,
       ),
       blockquotePadding: const EdgeInsets.all(16),
       blockquoteDecoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
+        color: brightness == Brightness.dark
             ? CupertinoColors.systemGrey6.darkColor
             : CupertinoColors.systemGrey6.color,
         border: Border(
           left: BorderSide(
-            color: theme.brightness == Brightness.dark
+            color: brightness == Brightness.dark
                 ? CupertinoColors.systemGrey4.darkColor
                 : CupertinoColors.systemGrey4.color,
             width: 4,
@@ -235,14 +306,14 @@ class MarkdownStyleSheet {
       ),
       codeblockPadding: const EdgeInsets.all(8),
       codeblockDecoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
+        color: brightness == Brightness.dark
             ? CupertinoColors.systemGrey6.darkColor
             : CupertinoColors.systemGrey6.color,
       ),
       horizontalRuleDecoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: theme.brightness == Brightness.dark
+            color: brightness == Brightness.dark
                 ? CupertinoColors.systemGrey4.darkColor
                 : CupertinoColors.systemGrey4.color,
           ),
@@ -256,58 +327,115 @@ class MarkdownStyleSheet {
   /// This constructor uses larger fonts for the headings than in
   /// [MarkdownStyle.fromTheme].
   factory MarkdownStyleSheet.largeFromTheme(ThemeData theme) {
+    return MarkdownStyleSheet._largeFromThemeParts(
+      bodyMedium: theme.textTheme.bodyMedium,
+      headlineSmall: theme.textTheme.headlineSmall,
+      titleLarge: theme.textTheme.titleLarge,
+      titleMedium: theme.textTheme.titleMedium,
+      bodyLarge: theme.textTheme.bodyLarge,
+      displayMedium: theme.textTheme.displayMedium,
+      displaySmall: theme.textTheme.displaySmall,
+      headlineMedium: theme.textTheme.headlineMedium,
+      cardColor: theme.cardTheme.color,
+      fallbackCardColor: theme.cardColor,
+      dividerColor: theme.dividerColor,
+      primaryColor: theme.primaryColor,
+      surfaceContainerHighest: theme.colorScheme.surfaceContainerHighest,
+      colorSchemePrimary: theme.colorScheme.primary,
+    );
+  }
+
+  /// Creates a [MarkdownStyleSheet] from the [TextStyle]s in the provided
+  /// [sdk.ThemeData], with the larger heading fonts of [largeFromTheme].
+  ///
+  /// The SDK-theme counterpart of [largeFromTheme], for applications still on the
+  /// SDK's `MaterialApp` — see [fromSdkTheme].
+  factory MarkdownStyleSheet.largeFromSdkTheme(sdk.ThemeData theme) {
+    return MarkdownStyleSheet._largeFromThemeParts(
+      bodyMedium: theme.textTheme.bodyMedium,
+      headlineSmall: theme.textTheme.headlineSmall,
+      titleLarge: theme.textTheme.titleLarge,
+      titleMedium: theme.textTheme.titleMedium,
+      bodyLarge: theme.textTheme.bodyLarge,
+      displayMedium: theme.textTheme.displayMedium,
+      displaySmall: theme.textTheme.displaySmall,
+      headlineMedium: theme.textTheme.headlineMedium,
+      cardColor: theme.cardTheme.color,
+      fallbackCardColor: theme.cardColor,
+      dividerColor: theme.dividerColor,
+      primaryColor: theme.primaryColor,
+      surfaceContainerHighest: theme.colorScheme.surfaceContainerHighest,
+      colorSchemePrimary: theme.colorScheme.primary,
+    );
+  }
+
+  /// The shared body of [largeFromTheme] and [largeFromSdkTheme].
+  factory MarkdownStyleSheet._largeFromThemeParts({
+    required TextStyle? bodyMedium,
+    required TextStyle? headlineSmall,
+    required TextStyle? titleLarge,
+    required TextStyle? titleMedium,
+    required TextStyle? bodyLarge,
+    required TextStyle? displayMedium,
+    required TextStyle? displaySmall,
+    required TextStyle? headlineMedium,
+    required Color? cardColor,
+    required Color? fallbackCardColor,
+    required Color dividerColor,
+    required Color primaryColor,
+    required Color surfaceContainerHighest,
+    required Color colorSchemePrimary,
+  }) {
+    assert(bodyMedium?.fontSize != null);
+    final body = bodyMedium!;
     return MarkdownStyleSheet(
       a: const TextStyle(color: Colors.blue),
-      p: theme.textTheme.bodyMedium,
+      p: body,
       pPadding: EdgeInsets.zero,
-      code: theme.textTheme.bodyMedium!.copyWith(
-        backgroundColor: theme.cardTheme.color,
-        fontFamily: 'monospace',
-        fontSize: theme.textTheme.bodyMedium!.fontSize! * 0.85,
-      ),
-      h1: theme.textTheme.displayMedium,
+      code: body.copyWith(backgroundColor: cardColor, fontFamily: 'monospace', fontSize: body.fontSize! * 0.85),
+      h1: displayMedium,
       h1Padding: EdgeInsets.zero,
-      h2: theme.textTheme.displaySmall,
+      h2: displaySmall,
       h2Padding: EdgeInsets.zero,
-      h3: theme.textTheme.headlineMedium,
+      h3: headlineMedium,
       h3Padding: EdgeInsets.zero,
-      h4: theme.textTheme.headlineSmall,
+      h4: headlineSmall,
       h4Padding: EdgeInsets.zero,
-      h5: theme.textTheme.titleLarge,
+      h5: titleLarge,
       h5Padding: EdgeInsets.zero,
-      h6: theme.textTheme.titleMedium,
+      h6: titleMedium,
       h6Padding: EdgeInsets.zero,
       em: const TextStyle(fontStyle: FontStyle.italic),
       strong: const TextStyle(fontWeight: FontWeight.bold),
       del: const TextStyle(decoration: TextDecoration.lineThrough),
-      blockquote: theme.textTheme.bodyMedium,
-      img: theme.textTheme.bodyMedium,
-      checkbox: theme.textTheme.bodyMedium!.copyWith(color: theme.primaryColor),
+      blockquote: body,
+      img: body,
+      checkbox: body.copyWith(color: primaryColor),
       blockSpacing: 8.0,
       listIndent: 24.0,
-      listBullet: theme.textTheme.bodyMedium,
+      listBullet: body,
       listBulletPadding: const EdgeInsets.only(right: 4),
       tableHead: const TextStyle(fontWeight: FontWeight.w600),
-      tableBody: theme.textTheme.bodyMedium,
+      tableBody: body,
       tableHeadAlign: TextAlign.center,
       tablePadding: const EdgeInsets.only(bottom: 4.0),
-      tableBorder: TableBorder.all(color: theme.dividerColor),
+      tableBorder: TableBorder.all(color: dividerColor),
       tableColumnWidth: const FlexColumnWidth(),
       tableCellsPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       tableCellsDecoration: const BoxDecoration(),
       blockquotePadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       blockquoteDecoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: surfaceContainerHighest,
         borderRadius: BorderRadius.circular(3),
-        border: Border(left: BorderSide(color: theme.colorScheme.primary, width: 3)),
+        border: Border(left: BorderSide(color: colorSchemePrimary, width: 3)),
       ),
       codeblockPadding: const EdgeInsets.all(8.0),
       codeblockDecoration: BoxDecoration(
-        color: theme.cardTheme.color ?? theme.cardColor,
+        color: cardColor ?? fallbackCardColor,
         borderRadius: BorderRadius.circular(2.0),
       ),
       horizontalRuleDecoration: BoxDecoration(
-        border: Border(top: BorderSide(width: 5.0, color: theme.dividerColor)),
+        border: Border(top: BorderSide(width: 5.0, color: dividerColor)),
       ),
     );
   }

@@ -6,7 +6,7 @@ description: A Markdown renderer for Flutter with first-class material_ui suppor
 repository: https://github.com/arrrrny/zuraffa_markdown
 issue_tracker: https://github.com/arrrrny/zuraffa_markdown/issues
 documentation: https://pub.dev/documentation/zuraffa_markdown/latest/
-version: 7.6.1
+version: 7.6.2
 
 environment:
   sdk: ^3.13.0
