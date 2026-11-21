@@ -10,12 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  markdown: ^7.3.0
+  material_ui: ^1.11.1
   zuraffa_markdown:
     path: ../
-
-  markdown: ^7.3.0
-
-  material_ui: ^1.11.1
 
 
 dev_dependencies:

@@ -1,3 +1,7 @@
+import 'package:cupertino_ui/cupertino_ui.dart' as cupertino_ui;
+// ignore: deprecated_member_use
+import 'package:flutter/cupertino.dart' as sdk_cupertino;
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart' as sdk;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/widgets.dart' show RichText, InlineSpan;
@@ -23,7 +27,9 @@ String? _leafStyle(WidgetTester tester) {
   return st == null ? null : 'size=${st.fontSize} color=${st.color}';
 }
 
-void main() {
+void main() => defineTests();
+
+void defineTests() {
   testWidgets('SDK MaterialApp keeps its own theme', (tester) async {
     await tester.pumpWidget(
       sdk.MaterialApp(
@@ -34,8 +40,6 @@ void main() {
       ),
     );
     final s = _leafStyle(tester);
-    // ignore: avoid_print
-    print('SDK -> $s');
     expect(s, contains('size=99.0'));
     expect(s, contains('red: 1.0000'));
   });
@@ -50,9 +54,47 @@ void main() {
       ),
     );
     final s = _leafStyle(tester);
-    // ignore: avoid_print
-    print('mui -> $s');
     expect(s, contains('size=42.0'));
     expect(s, contains('blue: 1.0000'));
+  });
+
+  testWidgets('SDK CupertinoApp keeps its own theme', (tester) async {
+    await tester.pumpWidget(
+      sdk_cupertino.CupertinoApp(
+        theme: const sdk_cupertino.CupertinoThemeData(
+          primaryColor: sdk.Color(0xFF00AA00),
+          textTheme: sdk_cupertino.CupertinoTextThemeData(textStyle: sdk.TextStyle(fontSize: 55.0)),
+        ),
+        home: const sdk_cupertino.CupertinoPageScaffold(
+          child: Markdown(data: 'plain text', styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino),
+        ),
+      ),
+    );
+    final s = _leafStyle(tester);
+    expect(s, contains('size=55.0'));
+  });
+
+  testWidgets('material_ui CupertinoTheme keeps its own theme', (tester) async {
+    await tester.pumpWidget(
+      mui.MaterialApp(
+        theme: mui.ThemeData(),
+        home: cupertino_ui.CupertinoPageScaffold(
+          child: Markdown(data: 'plain text', styleSheetTheme: MarkdownStyleSheetBaseTheme.cupertino),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('platform base theme resolves without throwing under either app', (tester) async {
+    await tester.pumpWidget(
+      sdk.MaterialApp(
+        theme: sdk.ThemeData(),
+        home: const sdk.Scaffold(
+          body: Markdown(data: 'plain text', styleSheetTheme: MarkdownStyleSheetBaseTheme.platform),
+        ),
+      ),
+    );
+    expect(tester.takeException(), isNull);
   });
 }
