@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zuraffa_markdown/zuraffa_markdown.dart';
@@ -107,7 +108,7 @@ class _WrapAlignmentDemoState extends State<WrapAlignmentDemo> {
                   key: Key(_wrapAlignment.toString()),
                   data: snapshot.data!,
                   imageDirectory: 'https://raw.githubusercontent.com',
-                  styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                  styleSheet: MarkdownStyleSheet.fromSdkTheme(Theme.of(context)).copyWith(
                     blockSpacing: _blockSpacing,
                     textAlign: _wrapAlignment,
                     pPadding: const EdgeInsets.only(bottom: 4.0),
